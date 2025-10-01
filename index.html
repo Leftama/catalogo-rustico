@@ -223,9 +223,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden; /* Importante para controlar la imagen */
+            position: relative;
             color: #fff;
             font-size: 14px;
             font-weight: bold;
+        }
+
+        /* Agregar estos estilos nuevos */
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Mantiene proporción sin deformar */
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05); /* Efecto zoom al hover */
         }
         
         .product-content {
@@ -586,8 +600,8 @@
             <div class="products-grid">
                 <!-- Producto 1: Salmón Ahumado -->
                 <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #ff7a5c 0%, #f39c12 100%);">
-                        🐟 Salmón Ahumado Laminado
+                    <div class="product-image">
+                        <img src="./images/salmon-ahumado.webp" alt="Salmón Ahumado Laminado">
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">Salmón Ahumado Laminado</h3>
@@ -607,8 +621,8 @@
 
                 <!-- Producto 2: Filete Standard -->
                 <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #2980b9 0%, #2c3e50 100%);">
-                        🐟 Filete con Piel Standard
+                    <div class="product-image">
+                        <img src="./images/filete-standard.webp" alt="Filete con Piel Standard">
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">Filete con Piel Standard</h3>
@@ -628,8 +642,8 @@
 
                 <!-- Producto 3: Filete Premium -->
                 <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);">
-                        🐟 Filete con Piel Premium
+                    <div class="product-image">
+                        <img src="./images/filete-premium.webp" alt="Filete con Piel Premium">
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">Filete con Piel Premium</h3>
@@ -649,11 +663,11 @@
 
                 <!-- Producto 4: Porción 8oz sin piel -->
                 <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
-                        🐟 Porción 8oz Premium sin piel
+                    <div class="product-image">
+                        <img src="./images/porcion-8oz.webp" alt="Porcion 8oz sin piel">
                     </div>
                     <div class="product-content">
-                        <h3 class="product-name">Porción 8oz Premium SIN PIEL</h3>
+                        <h3 class="product-name">Porción 8oz Premium sin Piel</h3>
                         <span class="product-quality">Premium</span>
                         <p class="product-description">
                             Control total de porciones. Estandariza costos y elimina merma. Ideal para preparaciones sin piel y presentaciones elegantes.
@@ -671,11 +685,11 @@
 
                 <!-- Producto 5: Porción 180g con piel -->
                 <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
-                        🐟 Porción 180g Standard con piel
+                    <div class="product-image">
+                        <img src="./images/porcion-180g.webp" alt="Porción 180g con piel">
                     </div>
                     <div class="product-content">
-                        <h3 class="product-name">Porción 180g Standard CON PIEL</h3>
+                        <h3 class="product-name">Porción 180g Standard con Piel</h3>
                         <span class="product-quality">Standard</span>
                         <p class="product-description">
                             Ideal para plancha, horno o parrilla. La piel sella y mantiene la jugosidad. Control de costos perfecto.
@@ -738,7 +752,7 @@
                             <td>🌟 Calidad superior</td>
                         </tr>
                         <tr>
-                            <td><strong>Porción 8oz SIN PIEL</strong></td>
+                            <td><strong>Porción 8oz sin Piel</strong></td>
                             <td><span class="badge premium">Premium</span></td>
                             <td class="price-cell">$11.820</td>
                             <td>Caja 4.5kg (~20 porciones)<br>226g c/u</td>
@@ -746,7 +760,7 @@
                             <td>📊 Control exacto + cero merma</td>
                         </tr>
                         <tr>
-                            <td><strong>Porción 180g CON PIEL</strong></td>
+                            <td><strong>Porción 180g con Piel</strong></td>
                             <td><span class="badge standard">Standard</span></td>
                             <td class="price-cell">$14.820</td>
                             <td>Caja 4.5kg (~25 porciones)<br>180g c/u</td>
