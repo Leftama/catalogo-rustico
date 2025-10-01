@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SalmoPrime - Salmón Premium desde Puerto Montt</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -218,8 +219,13 @@
         .product-image {
             width: 100%;
             height: 250px;
-            object-fit: cover;
             background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
         }
         
         .product-content {
@@ -529,65 +535,11 @@
                 padding: 10px 8px;
             }
         }
-        
-        /* Print styles for PDF */
-        @media print {
-            .btn, .cta-buttons, header, footer {
-                display: none !important;
-            }
-            
-            body {
-                background: white;
-                color: black;
-            }
-            
-            .hero {
-                page-break-after: always;
-                padding: 40px 0;
-            }
-            
-            .products, .comparison, .about {
-                page-break-inside: avoid;
-                background: white !important;
-            }
-            
-            .product-card {
-                page-break-inside: avoid;
-                border: 1px solid #ddd;
-                margin-bottom: 20px;
-            }
-            
-            .section-title, .product-name {
-                color: #2c3e50 !important;
-            }
-            
-            .product-description, .product-specs p, .about-content p {
-                color: #34495e !important;
-            }
-            
-            .comparison-table {
-                page-break-inside: avoid;
-            }
-            
-            .comparison-table th {
-                background: #1abc9c !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .comparison-table td {
-                border: 1px solid #ddd;
-                color: #2c3e50 !important;
-            }
-            
-            .features {
-                page-break-before: always;
-            }
-            
-            .feature-card {
-                border: 1px solid #ddd;
-                page-break-inside: avoid;
-            }
+
+        /* Loading State */
+        .btn-loading {
+            opacity: 0.7;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -619,7 +571,7 @@
                     Calidad superior, frescura garantizada y precios competitivos para chefs y restaurantes que buscan excelencia
                 </p>
                 <div class="cta-buttons">
-                    <button onclick="downloadPDF()" class="btn btn-primary">📄 Descargar Catálogo PDF</button>
+                    <button onclick="downloadPDF()" class="btn btn-primary" id="pdf-button">📄 Descargar Catálogo PDF</button>
                     <a href="https://wa.me/56957307981?text=Hola%20SalmoPrime,%20estoy%20interesado%20en%20sus%20productos" target="_blank" class="btn btn-secondary">💬 Contactar por WhatsApp</a>
                 </div>
             </div>
@@ -634,7 +586,9 @@
             <div class="products-grid">
                 <!-- Producto 1: Salmón Ahumado -->
                 <div class="product-card">
-                    <img src="./images/salmon-ahumado.jpg" alt="Salmón Ahumado Laminado" class="product-image">
+                    <div class="product-image" style="background: linear-gradient(135deg, #ff7a5c 0%, #f39c12 100%);">
+                        🐟 Salmón Ahumado Laminado
+                    </div>
                     <div class="product-content">
                         <h3 class="product-name">Salmón Ahumado Laminado</h3>
                         <span class="product-quality">Premium</span>
@@ -653,7 +607,9 @@
 
                 <!-- Producto 2: Filete Standard -->
                 <div class="product-card">
-                    <img src="./images/hero-salmon.jpg" alt="Filete con Piel Standard" class="product-image">
+                    <div class="product-image" style="background: linear-gradient(135deg, #2980b9 0%, #2c3e50 100%);">
+                        🐟 Filete con Piel Standard
+                    </div>
                     <div class="product-content">
                         <h3 class="product-name">Filete con Piel Standard</h3>
                         <span class="product-quality">Standard</span>
@@ -672,7 +628,9 @@
 
                 <!-- Producto 3: Filete Premium -->
                 <div class="product-card">
-                    <img src="./images/filete-standard.jpg" alt="Filete con Piel Premium" class="product-image">
+                    <div class="product-image" style="background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);">
+                        🐟 Filete con Piel Premium
+                    </div>
                     <div class="product-content">
                         <h3 class="product-name">Filete con Piel Premium</h3>
                         <span class="product-quality">Premium</span>
@@ -691,7 +649,9 @@
 
                 <!-- Producto 4: Porción 8oz sin piel -->
                 <div class="product-card">
-                    <img src="./images/porcion-8oz.jpg" alt="Porción 8oz Premium sin piel" class="product-image">
+                    <div class="product-image" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
+                        🐟 Porción 8oz Premium sin piel
+                    </div>
                     <div class="product-content">
                         <h3 class="product-name">Porción 8oz Premium SIN PIEL</h3>
                         <span class="product-quality">Premium</span>
@@ -711,7 +671,9 @@
 
                 <!-- Producto 5: Porción 180g con piel -->
                 <div class="product-card">
-                    <img src="./images/porcion-180g.jpg" alt="Porción 180g Standard con piel" class="product-image">
+                    <div class="product-image" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                        🐟 Porción 180g Standard con piel
+                    </div>
                     <div class="product-content">
                         <h3 class="product-name">Porción 180g Standard CON PIEL</h3>
                         <span class="product-quality">Standard</span>
@@ -893,19 +855,235 @@
     </footer>
 
     <script>
-        function downloadPDF() {
-                       
-            const element = document.getElementById('catalog-content');
-            const opt = {
-                margin: 15,
-                filename: 'SalmoPrime_Catalogo_Productos.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            
-            html2pdf().set(opt).from(element).save();
+        // Función para generar PDF con jsPDF + AutoTable
+        async function downloadPDF() {
+            try {
+                // Mostrar estado de carga
+                const pdfButton = document.getElementById('pdf-button');
+                const originalText = pdfButton.innerHTML;
+                pdfButton.innerHTML = '⏳ Generando PDF...';
+                pdfButton.classList.add('btn-loading');
+
+                // Verificar que las librerías estén cargadas
+                if (typeof window.jspdf === 'undefined') {
+                    throw new Error('Librería jsPDF no cargada correctamente');
+                }
+
+                const { jsPDF } = window.jspdf;
+                
+                // Crear nuevo documento PDF
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                // Configuración de página
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const margin = 15;
+
+                // ===== ENCABEZADO =====
+                // Logo/título
+                doc.setFontSize(20);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(44, 62, 80); // #2c3e50
+                doc.text('SALMOPRIME', pageWidth / 2, 25, { align: 'center' });
+                
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(26, 188, 156); // #1abc9c
+                doc.text('Salmón Premium de Puerto Montt', pageWidth / 2, 32, { align: 'center' });
+
+                // Línea decorativa
+                doc.setDrawColor(26, 188, 156);
+                doc.setLineWidth(0.5);
+                doc.line(margin, 35, pageWidth - margin, 35);
+
+                // ===== TÍTULO PRINCIPAL =====
+                doc.setFontSize(16);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(44, 62, 80);
+                doc.text('CATÁLOGO DE PRODUCTOS', pageWidth / 2, 45, { align: 'center' });
+                
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(100, 100, 100);
+                doc.text('Precios en pesos chilenos + IVA', pageWidth / 2, 51, { align: 'center' });
+
+                // Fecha
+                const today = new Date().toLocaleDateString('es-CL', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                doc.setFontSize(9);
+                doc.text(`Generado: ${today}`, margin, 58);
+
+                // ===== TABLA DE PRODUCTOS =====
+                const tableData = [
+                    [
+                        'PRODUCTO', 
+                        'CALIDAD', 
+                        'PRECIO/kg +IVA', 
+                        'PRESENTACIÓN',
+                        'PESO PORCIÓN',
+                        'USO RECOMENDADO',
+                        'VENTAJA CLAVE'
+                    ],
+                    [
+                        'Salmón Ahumado Laminado',
+                        'PREMIUM',
+                        '$16.090',
+                        'Laminado profesional',
+                        '-',
+                        'Entradas, tablas, platos fríos',
+                        'Listo para emplatar'
+                    ],
+                    [
+                        'Filete con Piel Standard',
+                        'STANDARD',
+                        '$10.490',
+                        'Filete con piel',
+                        '-',
+                        'Platos diarios, volumen',
+                        'Mejor relación precio-calidad'
+                    ],
+                    [
+                        'Filete con Piel Premium',
+                        'PREMIUM',
+                        '$11.690',
+                        'Filete con piel',
+                        '-',
+                        'Platos especiales',
+                        'Calidad superior'
+                    ],
+                    [
+                        'Porción 8oz SIN PIEL',
+                        'PREMIUM',
+                        '$11.820',
+                        'Caja 4.5kg (~20 porciones)',
+                        '226g (8oz)',
+                        'Tartares, ceviches',
+                        'Control exacto + cero merma'
+                    ],
+                    [
+                        'Porción 180g CON PIEL',
+                        'STANDARD',
+                        '$14.820',
+                        'Caja 4.5kg (~25 porciones)',
+                        '180g (6.3oz)',
+                        'Plancha, horno, parrilla',
+                        'Mantiene jugosidad'
+                    ]
+                ];
+
+                // Generar tabla con AutoTable
+                doc.autoTable({
+                    startY: 62,
+                    head: [tableData[0]],
+                    body: tableData.slice(1),
+                    margin: { left: margin, right: margin },
+                    styles: {
+                        fontSize: 8,
+                        cellPadding: 3,
+                        lineColor: [200, 200, 200],
+                        lineWidth: 0.25,
+                        textColor: [60, 60, 60]
+                    },
+                    headStyles: {
+                        fillColor: [26, 188, 156], // #1abc9c
+                        textColor: [255, 255, 255],
+                        fontStyle: 'bold',
+                        fontSize: 7,
+                        halign: 'center'
+                    },
+                    bodyStyles: {
+                        fontSize: 7
+                    },
+                    alternateRowStyles: {
+                        fillColor: [245, 245, 245]
+                    },
+                    columnStyles: {
+                        0: { cellWidth: 25, fontStyle: 'bold' },
+                        1: { cellWidth: 12, halign: 'center' },
+                        2: { cellWidth: 15, halign: 'center', fontStyle: 'bold', textColor: [231, 76, 60] }, // #e74c3c
+                        3: { cellWidth: 22 },
+                        4: { cellWidth: 15, halign: 'center' },
+                        5: { cellWidth: 20 },
+                        6: { cellWidth: 23 }
+                    },
+                    didDrawPage: function (data) {
+                        // Footer en cada página
+                        doc.setFontSize(7);
+                        doc.setTextColor(100, 100, 100);
+                        doc.text(
+                            'SalmoPrime - Catálogo de Productos - Página ' + doc.internal.getNumberOfPages(), 
+                            pageWidth / 2, 
+                            doc.internal.pageSize.getHeight() - 10,
+                            { align: 'center' }
+                        );
+                    }
+                });
+
+                // ===== INFORMACIÓN DE CONTACTO =====
+                const finalY = doc.lastAutoTable.finalY + 12;
+                
+                // Sección de contacto
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(44, 62, 80);
+                doc.text('INFORMACIÓN DE CONTACTO:', margin, finalY);
+                
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(60, 60, 60);
+                
+                doc.text('📞 Cristián R. Araya Salazar - Gerente de Ventas', margin, finalY + 6);
+                doc.text('    +569 5730 7981 | cristian.araya@salmoprime.cl', margin, finalY + 11);
+                
+                doc.text('📞 Elizabeth Jerez Rojas - Gerente Comercial', margin, finalY + 18);
+                doc.text('    +569 5234 8988 | contacto@salmoprime.cl', margin, finalY + 23);
+                
+                doc.text('📍 Puerto Montt, Región de Los Lagos, Chile', margin, finalY + 30);
+
+                // ===== GUÍA DE SELECCIÓN =====
+                const guideY = finalY + 40;
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(44, 62, 80);
+                doc.text('GUÍA RÁPIDA DE SELECCIÓN:', margin, guideY);
+                
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(60, 60, 60);
+                
+                doc.text('• Entradas y tablas → Salmón Ahumado Laminado', margin, guideY + 6);
+                doc.text('• Volumen diario → Filete Standard', margin, guideY + 12);
+                doc.text('• Platos destacados → Filete Premium', margin, guideY + 18);
+                doc.text('• Control de costos → Porciones 8oz o 180g', margin, guideY + 24);
+
+                // ===== GUARDAR PDF =====
+                doc.save('SalmoPrime_Catalogo_Productos.pdf');
+
+                // Restaurar botón
+                pdfButton.innerHTML = originalText;
+                pdfButton.classList.remove('btn-loading');
+
+            } catch (error) {
+                console.error('Error generando PDF:', error);
+                alert('Error al generar el PDF. Por favor, recarga la página e intente nuevamente.');
+                
+                // Restaurar botón en caso de error
+                const pdfButton = document.getElementById('pdf-button');
+                pdfButton.innerHTML = '📄 Descargar Catálogo PDF';
+                pdfButton.classList.remove('btn-loading');
+            }
         }
+
+        // Cargar librerías si es necesario
+        window.addEventListener('load', function() {
+            console.log('Librerías PDF cargadas correctamente');
+        });
     </script>
 </body>
 </html>
