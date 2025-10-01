@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalmoPrime - Salmón Premium desde Puerto Montt</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff7a5c 0%, #f39c12 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 122, 92, 0.4);
+        }
+        
+        .logo-text h1 {
+            font-size: 28px;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .logo-text p {
+            font-size: 12px;
+            color: #1abc9c;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .contact-header {
+            text-align: right;
+            color: #1abc9c;
+        }
+        
+        .contact-header p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(52, 73, 94, 0.85), rgba(44, 62, 80, 0.85)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%232980b9" width="1200" height="600"/></svg>');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 122, 92, 0.1) 0%, rgba(26, 188, 156, 0.1) 100%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero .subtitle {
+            font-size: 24px;
+            color: #1abc9c;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .hero-description {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: #ecf0f1;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff7a5c 0%, #f39c12 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(255, 122, 92, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(26, 188, 156, 0.4);
+        }
+        
+        /* Products Section */
+        .products {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #1abc9c;
+            margin-bottom: 60px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .product-card {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 122, 92, 0.2);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(255, 122, 92, 0.3);
+            border-color: #ff7a5c;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: #1a1a1a;
+        }
+        
+        .product-content {
+            padding: 30px;
+        }
+        
+        .product-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        
+        .product-quality {
+            display: inline-block;
+            padding: 5px 15px;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .product-description {
+            color: #bdc3c7;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .product-specs {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(26, 188, 156, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #1abc9c;
+        }
+        
+        .product-specs p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #ecf0f1;
+        }
+        
+        .product-price {
+            font-size: 32px;
+            color: #ff7a5c;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .product-price-note {
+            font-size: 12px;
+            color: #95a5a6;
+        }
+        
+        /* Comparison Table */
+        .comparison {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+            margin: 40px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .comparison-table thead {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+        }
+        
+        .comparison-table th {
+            padding: 20px 15px;
+            text-align: left;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .comparison-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: #ecf0f1;
+            font-size: 14px;
+        }
+        
+        .comparison-table tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .comparison-table tbody tr:hover {
+            background: rgba(26, 188, 156, 0.1);
+        }
+        
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .price-cell {
+            color: #ff7a5c;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge.premium {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+        }
+        
+        .badge.standard {
+            background: linear-gradient(135deg, #2980b9 0%, #2c3e50 100%);
+            color: white;
+        }
+        
+        .comparison-notes {
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            border-radius: 15px;
+            border: 2px solid rgba(26, 188, 156, 0.2);
+        }
+        
+        .comparison-notes h3 {
+            color: #1abc9c;
+            margin-bottom: 30px;
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .selection-card {
+            padding: 20px;
+            background: rgba(26, 188, 156, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #1abc9c;
+            text-align: center;
+        }
+        
+        .selection-card h4 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .selection-card p {
+            color: #1abc9c;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+        }
+        
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .about-content p {
+            font-size: 16px;
+            color: #ecf0f1;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(26, 188, 156, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            border-color: #1abc9c;
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            color: #1abc9c;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        .feature-card p {
+            color: #bdc3c7;
+            font-size: 14px;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a252f;
+            padding: 40px 0;
+            text-align: center;
+            color: #95a5a6;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h4 {
+            color: #1abc9c;
+            margin-bottom: 15px;
+        }
+        
+        .footer-section p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 32px;
+            }
+            
+            .hero .subtitle {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-header {
+                text-align: center;
+                margin-top: 15px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .comparison-table {
+                font-size: 12px;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px 8px;
+            }
+        }
+        
+        /* Print styles for PDF */
+        @media print {
+            .btn, .cta-buttons, header, footer {
+                display: none !important;
+            }
+            
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .hero {
+                page-break-after: always;
+                padding: 40px 0;
+            }
+            
+            .products, .comparison, .about {
+                page-break-inside: avoid;
+                background: white !important;
+            }
+            
+            .product-card {
+                page-break-inside: avoid;
+                border: 1px solid #ddd;
+                margin-bottom: 20px;
+            }
+            
+            .section-title, .product-name {
+                color: #2c3e50 !important;
+            }
+            
+            .product-description, .product-specs p, .about-content p {
+                color: #34495e !important;
+            }
+            
+            .comparison-table {
+                page-break-inside: avoid;
+            }
+            
+            .comparison-table th {
+                background: #1abc9c !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .comparison-table td {
+                border: 1px solid #ddd;
+                color: #2c3e50 !important;
+            }
+            
+            .features {
+                page-break-before: always;
+            }
+            
+            .feature-card {
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">S</div>
+                    <div class="logo-text">
+                        <h1>SalmoPrime</h1>
+                        <p>Premium Quality</p>
+                    </div>
+                </div>
+                <div class="contact-header">
+                    <p>📱 +569 5730 7981</p>
+                    <p>📧 cristian.araya@salmoprime.cl</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Salmón Atlántico Premium</h2>
+                <p class="subtitle">Directo desde Puerto Montt</p>
+                <p class="hero-description">
+                    Calidad superior, frescura garantizada y precios competitivos para chefs y restaurantes que buscan excelencia
+                </p>
+                <div class="cta-buttons">
+                    <button onclick="downloadPDF()" class="btn btn-primary">📄 Descargar Catálogo PDF</button>
+                    <a href="https://wa.me/56957307981?text=Hola%20SalmoPrime,%20estoy%20interesado%20en%20sus%20productos" target="_blank" class="btn btn-secondary">💬 Contactar por WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products">
+        <div class="container">
+            <h2 class="section-title">Nuestros Productos</h2>
+            <p class="section-subtitle">Selección premium para profesionales de la gastronomía</p>
+            
+            <div class="products-grid">
+                <!-- Producto 1: Salmón Ahumado -->
+                <div class="product-card">
+                    <img src="./images/salmon-ahumado.jpg" alt="Salmón Ahumado Laminado" class="product-image">
+                    <div class="product-content">
+                        <h3 class="product-name">Salmón Ahumado Laminado</h3>
+                        <span class="product-quality">Premium</span>
+                        <p class="product-description">
+                            Laminado profesional perfecto para entradas, tablas gourmet y platos fríos. Presentación impecable lista para emplatar.
+                        </p>
+                        <div class="product-specs">
+                            <p><strong>Origen:</strong> Puerto Montt</p>
+                            <p><strong>Uso ideal:</strong> Entradas, tablas, platos fríos</p>
+                            <p><strong>Presentación:</strong> Laminado profesional</p>
+                        </div>
+                        <div class="product-price">$16.090</div>
+                        <p class="product-price-note">+ IVA por kilo</p>
+                    </div>
+                </div>
+
+                <!-- Producto 2: Filete Standard -->
+                <div class="product-card">
+                    <img src="./images/hero-salmon.jpg" alt="Filete con Piel Standard" class="product-image">
+                    <div class="product-content">
+                        <h3 class="product-name">Filete con Piel Standard</h3>
+                        <span class="product-quality">Standard</span>
+                        <p class="product-description">
+                            Tu caballo de batalla. Calidad constante y consistente para los platos diarios de tu carta. Excelente relación precio-calidad.
+                        </p>
+                        <div class="product-specs">
+                            <p><strong>Origen:</strong> Puerto Montt</p>
+                            <p><strong>Uso ideal:</strong> Platos diarios, volumen</p>
+                            <p><strong>Presentación:</strong> Filete con piel</p>
+                        </div>
+                        <div class="product-price">$10.490</div>
+                        <p class="product-price-note">+ IVA por kilo</p>
+                    </div>
+                </div>
+
+                <!-- Producto 3: Filete Premium -->
+                <div class="product-card">
+                    <img src="./images/filete-standard.jpg" alt="Filete con Piel Premium" class="product-image">
+                    <div class="product-content">
+                        <h3 class="product-name">Filete con Piel Premium</h3>
+                        <span class="product-quality">Premium</span>
+                        <p class="product-description">
+                            Calidad superior para tus preparaciones especiales y platos destacados. Selección cuidadosa para resultados excepcionales.
+                        </p>
+                        <div class="product-specs">
+                            <p><strong>Origen:</strong> Puerto Montt</p>
+                            <p><strong>Uso ideal:</strong> Platos especiales</p>
+                            <p><strong>Presentación:</strong> Filete con piel</p>
+                        </div>
+                        <div class="product-price">$11.690</div>
+                        <p class="product-price-note">+ IVA por kilo</p>
+                    </div>
+                </div>
+
+                <!-- Producto 4: Porción 8oz sin piel -->
+                <div class="product-card">
+                    <img src="./images/porcion-8oz.jpg" alt="Porción 8oz Premium sin piel" class="product-image">
+                    <div class="product-content">
+                        <h3 class="product-name">Porción 8oz Premium SIN PIEL</h3>
+                        <span class="product-quality">Premium</span>
+                        <p class="product-description">
+                            Control total de porciones. Estandariza costos y elimina merma. Ideal para preparaciones sin piel y presentaciones elegantes.
+                        </p>
+                        <div class="product-specs">
+                            <p><strong>Peso por porción:</strong> 226g (8oz)</p>
+                            <p><strong>Presentación:</strong> Caja 4.5 kg (~20 porciones)</p>
+                            <p><strong>Uso ideal:</strong> Tartares, ceviches, platos sin piel</p>
+                            <p><strong>Costo por porción:</strong> ~$2.670 + IVA</p>
+                        </div>
+                        <div class="product-price">$11.820</div>
+                        <p class="product-price-note">+ IVA por kilo</p>
+                    </div>
+                </div>
+
+                <!-- Producto 5: Porción 180g con piel -->
+                <div class="product-card">
+                    <img src="./images/porcion-180g.jpg" alt="Porción 180g Standard con piel" class="product-image">
+                    <div class="product-content">
+                        <h3 class="product-name">Porción 180g Standard CON PIEL</h3>
+                        <span class="product-quality">Standard</span>
+                        <p class="product-description">
+                            Ideal para plancha, horno o parrilla. La piel sella y mantiene la jugosidad. Control de costos perfecto.
+                        </p>
+                        <div class="product-specs">
+                            <p><strong>Peso por porción:</strong> 180g (6.3oz)</p>
+                            <p><strong>Presentación:</strong> Caja 4.5 kg (~25 porciones)</p>
+                            <p><strong>Uso ideal:</strong> Plancha, horno, parrilla</p>
+                            <p><strong>Costo por porción:</strong> ~$2.670 + IVA</p>
+                        </div>
+                        <div class="product-price">$14.820</div>
+                        <p class="product-price-note">+ IVA por kilo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table Section -->
+    <section class="comparison">
+        <div class="container">
+            <h2 class="section-title">Comparación de Productos</h2>
+            <p class="section-subtitle">Encuentra el producto ideal para cada preparación</p>
+            
+            <div class="table-responsive">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Calidad</th>
+                            <th>Precio/kg + IVA</th>
+                            <th>Presentación</th>
+                            <th>Mejor para</th>
+                            <th>Ventaja clave</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Salmón Ahumado Laminado</strong></td>
+                            <td><span class="badge premium">Premium</span></td>
+                            <td class="price-cell">$16.090</td>
+                            <td>Por kilo</td>
+                            <td>Entradas, tablas, platos fríos</td>
+                            <td>✨ Listo para emplatar</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Filete con Piel Standard</strong></td>
+                            <td><span class="badge standard">Standard</span></td>
+                            <td class="price-cell">$10.490</td>
+                            <td>Por kilo</td>
+                            <td>Volumen diario</td>
+                            <td>💰 Mejor precio</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Filete con Piel Premium</strong></td>
+                            <td><span class="badge premium">Premium</span></td>
+                            <td class="price-cell">$11.690</td>
+                            <td>Por kilo</td>
+                            <td>Platos especiales</td>
+                            <td>🌟 Calidad superior</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Porción 8oz SIN PIEL</strong></td>
+                            <td><span class="badge premium">Premium</span></td>
+                            <td class="price-cell">$11.820</td>
+                            <td>Caja 4.5kg (~20 porciones)<br>226g c/u</td>
+                            <td>Tartares, ceviches</td>
+                            <td>📊 Control exacto + cero merma</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Porción 180g CON PIEL</strong></td>
+                            <td><span class="badge standard">Standard</span></td>
+                            <td class="price-cell">$14.820</td>
+                            <td>Caja 4.5kg (~25 porciones)<br>180g c/u</td>
+                            <td>Plancha, horno, parrilla</td>
+                            <td>🔥 Mantiene jugosidad</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="comparison-notes">
+                <h3>💡 Guía de Selección Rápida</h3>
+                <div class="selection-grid">
+                    <div class="selection-card">
+                        <h4>🍽️ Para entradas y tablas</h4>
+                        <p>→ Salmón Ahumado Laminado</p>
+                    </div>
+                    <div class="selection-card">
+                        <h4>📈 Para volumen diario</h4>
+                        <p>→ Filete Standard</p>
+                    </div>
+                    <div class="selection-card">
+                        <h4>⭐ Para platos destacados</h4>
+                        <p>→ Filete Premium</p>
+                    </div>
+                    <div class="selection-card">
+                        <h4>✂️ Para control de costos</h4>
+                        <p>→ Porciones 8oz o 180g</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about">
+        <div class="container">
+            <h2 class="section-title">Sobre SalmoPrime</h2>
+            <div class="about-content">
+                <p>
+                    En SalmoPrime, nos dedicamos a la producción y exportación de salmón de la más alta calidad, cultivado en las prístinas aguas de Puerto Montt, Chile. Nuestra empresa combina la tradición acuícola con tecnología de vanguardia para ofrecer un producto que supera los más exigentes estándares internacionales.
+                </p>
+                <p>
+                    Con más de 15 años de experiencia en el sector, hemos perfeccionado cada etapa de nuestro proceso: desde la selección de ovas hasta el empaque final, garantizando un producto fresco, seguro y de sabor excepcional. Nuestro compromiso con la sostenibilidad y el bienestar animal nos distingue en el mercado.
+                </p>
+                <p>
+                    Trabajamos con los mejores chefs y restaurantes de todo el mundo, proporcionando el ingrediente estrella para creaciones culinarias memorables. Más que un producto, ofrecemos una experiencia gastronómica que eleva cualquier plato a la excelencia.
+                </p>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🎣</div>
+                    <h3>Origen Certificado</h3>
+                    <p>Trazabilidad completa desde Puerto Montt</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">❄️</div>
+                    <h3>Frescura Garantizada</h3>
+                    <p>Cadena de frío controlada</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Entregas Puntuales</h3>
+                    <p>Logística eficiente y confiable</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3>Calidad Premium</h3>
+                    <p>Estándares internacionales</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p>Cristián R. Araya Salazar</p>
+                    <p>Gerente de Ventas</p>
+                    <p>📱 +569 5730 7981</p>
+                    <p>📧 cristian.araya@salmoprime.cl</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Ubicación</h4>
+                    <p>Puerto Montt</p>
+                    <p>Región de Los Lagos</p>
+                    <p>Chile</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Horario</h4>
+                    <p>Lunes a Viernes</p>
+                    <p>9:00 - 18:00 hrs</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 SalmoPrime. Todos los derechos reservados.</p>
+                <p>Salmón Premium directo desde Puerto Montt</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function downloadPDF() {
+                       
+            const element = document.getElementById('catalog-content');
+            const opt = {
+                margin: 15,
+                filename: 'SalmoPrime_Catalogo_Productos.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+</html>
